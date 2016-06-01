@@ -12,7 +12,9 @@ INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR})
 ADD_EXECUTABLE(tinyplayer
     tinyplayer.cpp
     v2mplayer.cpp
+    v2mconv.cpp
     synth_core.cpp
+    sounddef.cpp
 )
 
 TARGET_LINK_LIBRARIES(tinyplayer

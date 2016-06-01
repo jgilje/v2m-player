@@ -16,6 +16,8 @@
 
 #include "v2mplayer.h"
 #include "libv2.h"
+#include "v2mconv.h"
+#include "sounddef.h"
 
 static V2MPlayer player;
 
@@ -45,6 +47,23 @@ static bool init_sdl() {
     return true;
 }
 
+static unsigned char* check_and_convert(unsigned char* tune, int length) {
+    sdInit();
+
+    int version = CheckV2MVersion(tune, length);
+    if (version < 0) {
+        SDL_LogCritical(SDL_LOG_CATEGORY_INPUT, "Failed to Check Version on input file");
+        return NULL;
+    }
+
+    uint8_t* converted;
+    int converted_length;
+    ConvertV2M(tune, length, &converted, &converted_length);
+    free(tune);
+
+    return converted;
+}
+
 int main(int argc, const char** argv) {
     printf("Farbrausch Tiny Music Player v0.dontcare TWO\n");
     printf("Code and Synthesizer (C) 2000-2008 kb/Farbrausch\n");
@@ -64,13 +83,15 @@ int main(int argc, const char** argv) {
     fseek(file, 0, SEEK_END);
     int64_t size = ftell(file);
     fseek(file, 0, SEEK_SET);
-    char* theTune = (char*) calloc(1, size);
+    unsigned char* theTune = (unsigned char*) calloc(1, size);
 
     size_t read = fread(theTune, 1, size, file);
     if (size != read) {
         fprintf(stderr, "Invalid read size\n");
         return 1;
     }
+
+    theTune = check_and_convert(theTune, size);
 
     player.Init();
     player.Open(theTune);
