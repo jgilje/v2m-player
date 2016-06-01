@@ -42,10 +42,13 @@ namespace
 		}
         */
 
-        uint64_t t = ((nexttime - time) * usecs) / td2;
-        *smplrem += (t >> 32);    // bits 32-63
-        t = t & ((1L << 32) - 1); // bits 00-31
-        *smpldelta += t;
+        uint64_t t = ((nexttime - time) * (uint64_t) usecs) / td2;
+        uint32_t r = *smplrem;
+        *smplrem += (t >> 32);          // bits 32-63
+        *smpldelta += (t & 0xffffffff); // bits 00-31
+        if (*smplrem < r) {
+            *smpldelta++;
+        }
 	}
 }
 
