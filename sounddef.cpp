@@ -56,7 +56,7 @@ void sdInit()
 	patchoffsets = (long *)soundmem;
 	unsigned char *sptr=soundmem+128*4;
 
-	printf("sound size: %d\n",v2nparms);
+    // printf("sound size: %d\n",v2nparms);
 
 	char s[256];
 
@@ -108,7 +108,7 @@ void sdInit()
 
 	for (int i=0; i<=v2version; i++)
 	{
-		printf("size of version %d sound bank: %d params, %d globals\n",i,v2vsizes[i],v2gsizes[i]);
+        // printf("size of version %d sound bank: %d params, %d globals\n",i,v2vsizes[i],v2gsizes[i]);
 		v2vsizes[i]+=1+255*3;
 	}
 
