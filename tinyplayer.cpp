@@ -44,6 +44,21 @@ static bool init_sdl() {
         return false;
     }
 
+    if (desired.channels != actual.channels) {
+        SDL_Log("Failed to get requested channels, wanted %d, got %d", desired.channels, actual.channels);
+        return false;
+    }
+
+    if (desired.freq != actual.freq) {
+        SDL_Log("Failed to get requested frequency, wanted %d, got %d", desired.freq, actual.freq);
+        return false;
+    }
+
+    if (desired.format != actual.format) {
+        SDL_Log("Failed to get requested format, wanted %x, got %x", desired.format, actual.format);
+        return false;
+    }
+
     return true;
 }
 
