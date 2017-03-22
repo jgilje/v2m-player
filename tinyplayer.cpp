@@ -20,6 +20,7 @@
 #include "sounddef.h"
 
 static V2MPlayer player;
+static SDL_AudioDeviceID dev;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 static void sdl_callback(void *userdata, Uint8 * stream, int len) {
@@ -39,23 +40,10 @@ static bool init_sdl() {
     desired.samples = 4096;
     desired.format = AUDIO_F32;
     desired.callback = sdl_callback;
-    if (SDL_OpenAudio(&desired, &actual)) {
+
+    dev = SDL_OpenAudioDevice(NULL, 0, &desired, &actual, 0);
+    if (! dev) {
         SDL_Log("Failed to open audio, %s\n", SDL_GetError());
-        return false;
-    }
-
-    if (desired.channels != actual.channels) {
-        SDL_Log("Failed to get requested channels, wanted %d, got %d", desired.channels, actual.channels);
-        return false;
-    }
-
-    if (desired.freq != actual.freq) {
-        SDL_Log("Failed to get requested frequency, wanted %d, got %d", desired.freq, actual.freq);
-        return false;
-    }
-
-    if (desired.format != actual.format) {
-        SDL_Log("Failed to get requested format, wanted %x, got %x", desired.format, actual.format);
         return false;
     }
 
@@ -118,12 +106,12 @@ int main(int argc, const char** argv) {
     }
 
     player.Play();
-    SDL_PauseAudio(0);
+    SDL_PauseAudioDevice(dev, 0);
 
     printf("\n\npress Enter to quit\n");
     getc(stdin);
 
-    SDL_PauseAudio(1);
+    SDL_PauseAudioDevice(dev, 1);
     SDL_Quit();
     player.Close();
     return 0;
