@@ -461,12 +461,20 @@ void V2MPlayer::Render(float *a_buffer, uint32_t a_len, bool a_add)
 	}
 }
 
+bool V2MPlayer::NoEnd()
+{
+	return ((m_base.maxtime * m_base.timediv) > m_state.cursmpl);
+}
+
+uint32_t V2MPlayer::Length()
+{
+	return ((m_base.maxtime * m_base.timediv) / m_samplerate + 1);
+}
 
 bool V2MPlayer::IsPlaying()
 {
 	return m_base.valid && m_state.state==PlayerState::PLAYING;
 }
-
 
 #ifdef V2MPLAYER_SYNC_FUNCTIONS
 
@@ -513,7 +521,7 @@ uint32_t V2MPlayer::CalcPositions(sS32 **a_dest)
 	gp=m_base.gptr;
 	lastevtime=0;
 	pb32=32;
-  uint32_t pn;
+    uint32_t pn;
 	for (pn=0; pn<posnum; pn++)
 	{
         uint32_t curtime=pn*m_base.timediv/8;

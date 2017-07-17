@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <SDL2/SDL.h>
 
@@ -108,9 +109,18 @@ int main(int argc, const char** argv) {
     player.Play();
     SDL_PauseAudioDevice(dev, 0);
 
+/*
+    while (player.NoEnd())
+    {
+        sleep(1);
+    }
+*/
+    printf("Length: %d\n", player.Length());
+    sleep(player.Length());
+/*
     printf("\n\npress Enter to quit\n");
     getc(stdin);
-
+*/
     SDL_PauseAudioDevice(dev, 1);
     SDL_Quit();
     player.Close();

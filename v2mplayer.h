@@ -10,7 +10,6 @@
 
 #ifndef V2MPLAYER_H_
 #define V2MPLAYER_H_
-
 /*************************************************************************************/
 /**                                                                                 **/
 /**  Type definitions                                                               **/
@@ -105,6 +104,9 @@ public:
 		reinterpret_cast<V2MPlayer*>(a_this)->Render(a_buffer,a_len);
 	}
 
+  bool NoEnd();
+  uint32_t Length();
+  
   // returns if song is currently playing
   bool IsPlaying();
 
