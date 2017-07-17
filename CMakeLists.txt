@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-PROJECT(tinyplayer)
+PROJECT(v2mplayer)
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -9,14 +9,20 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 FIND_PACKAGE(SDL2 REQUIRED)
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR})
 
-ADD_EXECUTABLE(tinyplayer
-    tinyplayer.cpp
+ADD_LIBRARY(v2m
+    SHARED
     v2mplayer.cpp
     v2mconv.cpp
     synth_core.cpp
     sounddef.cpp
 )
+set_target_properties(v2m PROPERTIES VERSION "0.20170322" SOVERSION "0")
 
-TARGET_LINK_LIBRARIES(tinyplayer
+ADD_EXECUTABLE(v2mplayer
+    tinyplayer.cpp
+)
+
+TARGET_LINK_LIBRARIES(v2mplayer
     ${SDL2_LIBRARY}
+    v2m
 )
