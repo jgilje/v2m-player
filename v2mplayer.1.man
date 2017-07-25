@@ -1,0 +1,18 @@
+.TH "V2mPlayer User Manual" 1 "0.20170725" "V2m documentation"
+.RS
+Farbrausch Tiny Music Player v0.dontcare TWO
+Code and Synthesizer (C) 2000-2008 kb/Farbrausch
+SDL Port by github.com/jgilje
+.PP
+Usage : v2mplayer [options] <input_file_v2m>
+.PP
+options:
+.RS
+.TP
+.B
+\fB-k\fP
+key/auto stop (bool, optional, default = false)
+.TP
+.B
+\fB-h\fP
+this help
