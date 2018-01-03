@@ -1,5 +1,4 @@
-#ifndef _V2MCONV_H_
-#define _V2MCONV_H_
+#pragma once
 
 // gives version deltas
 int CheckV2MVersion(const unsigned char *inptr, const int inlen);
@@ -10,6 +9,4 @@ void ConvertV2M(const unsigned char *inptr, const int inlen, unsigned char **out
 extern const char * const v2mconv_errors[];
 
 unsigned long GetV2MPatchData(const unsigned char *inptr, const int inlen, 
-										 unsigned char **outptr, const unsigned char **patchmap);
-
-#endif
+                              unsigned char **outptr, const unsigned char **patchmap);

@@ -1,6 +1,4 @@
-
-#ifndef LIBV2_H_
-#define LIBV2_H_
+#pragma once
 
 /*************************************************************************************/
 /*************************************************************************************/
@@ -90,7 +88,7 @@ extern "C"
   //        two mono float buffers at buf and buf2 instead of one interleaved buffer
   // add  : if this is specified, the synth will add its output to the destination
   //        buffer instead of replacing its contents
-  void synthRender(void *pthis, void *buf, int smp, void *buf2=0, int add=0);
+  void synthRender(void *pthis, void *buf, int smp, void *buf2 = 0, int add = 0);
 
   // pipes a stream of MIDI commands to the synthesizer
   // pthis: pointer to work mem
@@ -118,6 +116,4 @@ extern "C"
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
