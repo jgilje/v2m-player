@@ -62,29 +62,29 @@ public:
     //
     // a_buffer : ptr to stereo float sample buffer (0dB=1.0f)
     // a_len    : number of samples to render
-    // 
+    //
     // returns  : flag if playing
     //
     void Render(float *a_buffer, uint32_t a_len, bool a_add=0);
 
     // render proxy for C-style callbacks
-    // 
+    //
     // a_this   : void ptr to instance
     // rest as in Render()
     //
     static void RenderProxy(void *a_this, float *a_buffer, uint32_t a_len)
-    { 
+    {
         reinterpret_cast<V2MPlayer*>(a_this)->Render(a_buffer, a_len);
     }
 
   bool NoEnd();
   uint32_t Length();
-  
+
   // returns if song is currently playing
     bool IsPlaying();
 
     #ifdef V2MPLAYER_SYNC_FUNCTIONS
-    // Retrieves an array of timer<->song position 
+    // Retrieves an array of timer<->song position
     //
     // a_dest: pointer to a variable which will receive the address of an array of long
     //         values structured as following:
@@ -93,7 +93,7 @@ public:
     //                                            format: 0xBBBBTTNN, where
     //                                                            BBBB is the bar number (starting at 0)
     //                                                            TT   is the number of the 32th tick within the current bar
-    //                                                            NN   is the total number of 32th ticks a the current bar has 
+    //                                                            NN   is the total number of 32th ticks a the current bar has
     //                                                             (32, normally, may change with different time signatures than 4/4)
     //         ... and so on for every found position
     //
@@ -110,7 +110,7 @@ public:
     //  no need to look beyond this point.
     // ------------------------------------------------------------------------------------------------------
 
-private: 
+private:
 
     // struct defs
 

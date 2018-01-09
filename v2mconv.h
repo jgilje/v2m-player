@@ -8,5 +8,5 @@ void ConvertV2M(const unsigned char *inptr, const int inlen, unsigned char **out
 
 extern const char * const v2mconv_errors[];
 
-unsigned long GetV2MPatchData(const unsigned char *inptr, const int inlen, 
+unsigned long GetV2MPatchData(const unsigned char *inptr, const int inlen,
                               unsigned char **outptr, const unsigned char **patchmap);

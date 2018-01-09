@@ -15,7 +15,7 @@
 #define GETDELTA(p, w) ((p)[0] + ((p)[w] << 8) + ((p)[2*w] << 16))
 #define UPDATENT(n, v, p, w)  if ((n) < (w)) { (v) = m_state.time + GETDELTA((p), (w)); if ((v) < m_state.nexttime) m_state.nexttime = (v); }
 #define UPDATENT2(n, v, p, w) if ((n) < (w) && GETDELTA((p), (w))) { (v) = m_state.time + GETDELTA((p), (w)); }
-#define UPDATENT3(n, v, p, w) if ((n) < (w) && (v) < m_state.nexttime) m_state.nexttime = (v); 
+#define UPDATENT3(n, v, p, w) if ((n) < (w) && (v) < m_state.nexttime) m_state.nexttime = (v);
 #define PUTSTAT(s) { uint8_t bla = (s); if (laststat != bla) { laststat = bla; *mptr ++= (uint8_t)laststat; }};
 
 namespace
@@ -70,8 +70,8 @@ bool V2MPlayer::InitBase(const void *a_v2m)
                 d += 4;
                 cc.ccptr = d;
                 d += 4*cc.ccnum;
-            }                        
-        }        
+            }
+        }
     }
     int size = *((uint32_t*)d);
     if (size > 16384 || size < 0)
@@ -253,16 +253,18 @@ void V2MPlayer::Tick()
     *mptr ++= 0xfd;
 
     synthProcessMIDI(m_synth, m_midibuf);
-    
+
     if (m_state.nexttime == (uint32_t)-1)
         m_state.state = PlayerState::STOPPED;
+    if(m_state.time >= m_base.maxtime)
+        m_state.state=PlayerState::STOPPED;
 }
 
 bool V2MPlayer::Open(const void *a_v2mptr, uint32_t a_samplerate)
 {
     if (m_base.valid)
         Close();
-    
+
     m_samplerate = a_samplerate;
 
     if (!InitBase(a_v2mptr))
@@ -377,7 +379,7 @@ void V2MPlayer::Render(float *a_buffer, uint32_t a_len, bool a_add)
             a_buffer[2*i+1] *= m_fadeval;
             m_fadeval -= m_fadedelta;
             if (m_fadeval < 0)
-                m_fadeval = 0; 
+                m_fadeval = 0;
         }
         if (!m_fadeval) Stop();
     }
@@ -385,12 +387,12 @@ void V2MPlayer::Render(float *a_buffer, uint32_t a_len, bool a_add)
 
 bool V2MPlayer::NoEnd()
 {
-	return ((m_base.maxtime * m_base.timediv) > m_state.cursmpl);
+    return ((m_base.maxtime * m_base.timediv) > m_state.cursmpl);
 }
 
 uint32_t V2MPlayer::Length()
 {
-	return ((m_base.maxtime * m_base.timediv) / m_samplerate + 1);
+    return ((m_base.maxtime * m_base.timediv) / m_samplerate + 1);
 }
 
 bool V2MPlayer::IsPlaying()
@@ -405,7 +407,7 @@ uint32_t V2MPlayer::CalcPositions(sS32 **a_dest)
 /////////////////////////////////////////////
 {
     if (!a_dest) return 0;
-    if (!m_base.valid) 
+    if (!m_base.valid)
     {
         *a_dest = 0;
         return 0;
@@ -424,7 +426,7 @@ uint32_t V2MPlayer::CalcPositions(sS32 **a_dest)
     uint32_t posnum = 0;
     uint32_t ttime, td, this32;
     sF64 curtimer = 0;
-    
+
     while (gnr < m_base.gdnum)
     {
         ttime = lastevtime + (gp[2*m_base.gdnum] << 16) + (gp[m_base.gdnum] << 8) + gp[0];
