@@ -62,7 +62,7 @@ void sdInit()
             patchoffsets[i] = (long)(sptr - soundmem);
             sprintf(s, "Init Patch #%03d", i);
             strcpy(patchnames[i], s);
-        } else 
+        } else
             editmem = sptr;
         memcpy(sptr, v2initsnd, v2soundsize);
         sptr += v2soundsize;
@@ -124,7 +124,7 @@ void sdInit()
         p += v2gtopics[i].no;
     }
 
-#ifdef RONAN    
+#ifdef RONAN
     memset(speech, 0, 64*256);
     for (int i = 0; i < 64; i++)
         speechptrs[i] = speech[i];
@@ -162,7 +162,7 @@ static bool sdLoadPatch(file &in, int pn, int fver = -1)
             patch[j] = in.getuint8_t();
     patch += v2nparms;
     in.read(patch, 1);
-    
+
     // remap mods
     for (int j = 0; j < *patch; j++)
     {
@@ -318,7 +318,7 @@ bool sdImportV2MPatches(file &in, const char *prefix)
         buf[31] = 0;
         strcpy(patchnames[p], buf);
     }
-    
+
     return np ? 1 : 0;
 }
 */

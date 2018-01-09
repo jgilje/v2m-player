@@ -43,7 +43,7 @@ extern "C"
   void dsSetVolume(float vol);
 
   // forces rendering thread to update. On single-core CPUs it's a good idea to
-  // call this once per frame (improves A/V sync and reduces any stuttering), 
+  // call this once per frame (improves A/V sync and reduces any stuttering),
   // with more than one CPU it's pretty much useless.
   void dsTick();
 

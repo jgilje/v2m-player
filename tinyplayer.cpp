@@ -88,35 +88,35 @@ static unsigned char* check_and_convert(unsigned char* tune, int length)
 
 int main(int argc, char** argv)
 {
-	V2mPlayerTitle();
-	int opt;
-	int fkey = 0;
-	int fhelp = 0;
-	while ((opt = getopt(argc, argv, ":kh")) != -1)
-	{
-		switch(opt)
-		{
-			case 'k':
-				fkey = 1;
-				break;
-			case 'h':
-				fhelp = 1;
-				break;
-			case ':':
-				printf("option needs a value\n");
-				break;
-			case '?':
-				printf("unknown option: %c\n", optopt);
-				break;
-		}
-	}
-	
-	if(optind + 1 > argc || fhelp > 0)
-	{
-		V2mPlayerUsage();
-		return 1;
-	}
-	const char *v2m_filename = argv[optind];
+    V2mPlayerTitle();
+    int opt;
+    int fkey = 0;
+    int fhelp = 0;
+    while ((opt = getopt(argc, argv, ":kh")) != -1)
+    {
+        switch(opt)
+        {
+            case 'k':
+                fkey = 1;
+                break;
+            case 'h':
+                fhelp = 1;
+                break;
+            case ':':
+                printf("option needs a value\n");
+                break;
+            case '?':
+                printf("unknown option: %c\n", optopt);
+                break;
+        }
+    }
+
+    if(optind + 1 > argc || fhelp > 0)
+    {
+        V2mPlayerUsage();
+        return 1;
+    }
+    const char *v2m_filename = argv[optind];
 
     FILE* file = fopen(v2m_filename, "r");
     if (file == NULL)
@@ -150,16 +150,16 @@ int main(int argc, char** argv)
 
     player.Play();
     SDL_PauseAudioDevice(dev, 0);
-	
-	if (fkey > 0)
-	{
-		printf("\n\npress Enter to quit\n");
-		getc(stdin);
-	} else {
-		printf("Length: %d\n", player.Length());
-		sleep(player.Length());
-	}
-	
+
+    printf("Length: %d\n", player.Length());
+    if (fkey > 0)
+    {
+        printf("\n\npress Enter to quit\n");
+        getc(stdin);
+    } else {
+        while(player.IsPlaying()) { sleep(1); }
+    }
+
     SDL_PauseAudioDevice(dev, 1);
     SDL_Quit();
     player.Close();

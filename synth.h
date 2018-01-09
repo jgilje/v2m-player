@@ -3,7 +3,7 @@
 extern "C"
 {
     extern unsigned int synthGetSize();
-  
+
     extern void synthInit(void *pthis, const void *patchmap, int samplerate=44100);
     extern void synthRender(void *pthis, void *buf, int smp, void *buf2=0, int add=0);
     extern void synthProcessMIDI(void *pthis, const void *ptr);

@@ -1,7 +1,7 @@
 #pragma once
 
 // no problem if this header is included multiple times
-// in case you get any linker collisions, prepend 
+// in case you get any linker collisions, prepend
 // __declspec(selectany) to the problematic declaration
 
 enum V2CTLTYPES { VCTL_SKIP, VCTL_SLIDER, VCTL_MB, };
@@ -172,7 +172,7 @@ const V2PARAM v2parms[] =
     { 1, "Attack",    VCTL_SLIDER,  0,   0, 127, 1, 0                                                            },
     { 1, "Release", VCTL_SLIDER,  0,   0, 127, 1, 0                                                            },
     { 1, "OutGain", VCTL_SLIDER, 64,   0, 127, 1, 0                                                            },
-    //  Polyphony (1) 
+    //  Polyphony (1)
     { 0, "MaxPoly", VCTL_SLIDER,  0,   1,  16, 0, 0                                                            },
 };
 
@@ -209,7 +209,7 @@ const unsigned char v2initsnd[v2soundsize] =
     0, 0,                                             // aux 1/2 sends
     0,                           // FXRoute
     0,                           // Boost
-    0,  32,  100,   64,          // ChanDist: off  
+    0,  32,  100,   64,          // ChanDist: off
     64, 64, 32, 32, 0, 0, 64,    // Chorus/Flanger: off
     0, 0, 1, 2, 90, 32, 20, 64, 64,        // Compressor: off
     1,                           // maxpoly : 1
