@@ -254,10 +254,8 @@ void V2MPlayer::Tick()
 
     synthProcessMIDI(m_synth, m_midibuf);
 
-    if (m_state.nexttime == (uint32_t)-1)
+    if ((m_state.nexttime == (uint32_t)-1) || (m_state.time >= m_base.maxtime))
         m_state.state = PlayerState::STOPPED;
-    if(m_state.time >= m_base.maxtime)
-        m_state.state=PlayerState::STOPPED;
 }
 
 bool V2MPlayer::Open(const void *a_v2mptr, uint32_t a_samplerate)
