@@ -12,6 +12,7 @@ cd src
 ccmake .
 cmake .
 make
+sudo make install
 ```
 
 ## Usage
