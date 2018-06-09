@@ -2,6 +2,10 @@
 Farbrausch V2M player
 SDL Port by github.com/jgilje
 
+0.20180608
+
+    INSTALL Version
+
 0.20180108
 
     Fix time play in V2MPlayer::Tick()
