@@ -8,7 +8,6 @@ This is a quick port of the tinyplayer at https://github.com/farbrausch/fr_publi
 ## Build
 
 ```
-cd src
 ccmake .
 cmake .
 make
@@ -18,7 +17,7 @@ sudo make install
 ## Usage
 
 ```
-./v2mplayer ../v2m/breeze.v2m
+./v2mplayer v2m/breeze.v2m
 ```
 
 --- 
