@@ -11,6 +11,12 @@
 #pragma once
 #ifndef V2MPLAYER_H_
 #define V2MPLAYER_H_
+
+#define PROJECTNAME "V2MPlayer"
+#define PROJECTVERSION "0.20180817"
+#define PROJECTURL "github.com/jgilje"
+
+
 /*************************************************************************************/
 /**                                                                                 **/
 /**  Type definitions                                                               **/

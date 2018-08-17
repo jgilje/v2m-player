@@ -1,18 +1,37 @@
-.TH "V2mPlayer User Manual" 1 "0.20170725" "V2m documentation"
-.RS
-Farbrausch Tiny Music Player v0.dontcare TWO
-Code and Synthesizer (C) 2000-2008 kb/Farbrausch
-SDL Port by github.com/jgilje
-.PP
-Usage : v2mplayer [options] <input_file_v2m>
-.PP
-options:
-.RS
+.TH "V2mPlayer User Manual" 1 "0.20180817" "V2m documentation"
+
+.SH NAME
+v2mplayer
+
+.SH DESCRIPTION
+ Farbrausch Tiny Music Player v0.dontcare TWO
+ Code and Synthesizer (C) 2000-2008 kb/Farbrausch
+ SDL Port by github.com/jgilje
+
+.SH SYNOPSIS
+\fBv2mplayer\fP [options] <input_file_v2m | stdin>
+
+.SH OPTIONS
 .TP
-.B
 \fB-k\fP
 key/auto stop (bool, optional, default = false)
 .TP
-.B
 \fB-h\fP
-this help
+help
+
+.SH EXAMPLE
+ \fBv2mplayer\fP v2m/introtune.v2m
+ zcat v2m/breeze.v2mz | \fBv2mplayer\fP
+
+.SH COPYRIGHT
+ Copyright 2016 Joakim L. Gilje.
+ All rights reserved.
+
+.SH SEE ALSO
+ xmp(1),
+ openmpt123(1),
+ zcat(1)
+
+.SH CONTACTS
+ Website: https://github.com/jgilje/v2m-player
+ Email: jgilje@jgilje.net
