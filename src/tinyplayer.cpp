@@ -28,7 +28,8 @@ static void V2mPlayerTitle()
 {
     printf("Farbrausch Tiny Music Player v0.dontcare TWO\n");
     printf("Code and Synthesizer (C) 2000-2008 kb/Farbrausch\n");
-    printf("SDL Port by github.com/jgilje\n\n");
+    printf("Version: %s\n", PROJECTVERSION);
+    printf("SDL Port by %s\n\n", PROJECTURL);
 }
 static void V2mPlayerUsage()
 {
@@ -111,38 +112,45 @@ int main(int argc, char** argv)
         }
     }
 
-    if(optind + 1 > argc || fhelp > 0)
+    if(fhelp > 0)
     {
         V2mPlayerUsage();
         return 1;
     }
-    const char *v2m_filename = argv[optind];
-
-    FILE* file = fopen(v2m_filename, "r");
-    if (file == NULL)
+    unsigned char* theTune;
+    FILE* file;
+    uint64_t size;
+    if(optind + 1 > argc)
     {
-        printf("Failed to open %s\n", argv[1]);
-        return 1;
+        size = 1024000;
+        file = stdin;
+        printf("Now Playing: stdin\n");
+    } else {
+        const char *v2m_filename = argv[optind];
+
+        file = fopen(v2m_filename, "r");
+        if (file == NULL)
+        {
+            fprintf(stderr, "Failed to open %s\n", v2m_filename);
+            return 1;
+        }
+
+        fseek(file, 0, SEEK_END);
+        size = ftell(file);
+        fseek(file, 0, SEEK_SET);
+        printf("Now Playing: %s\n", v2m_filename);
     }
-
-    fseek(file, 0, SEEK_END);
-    uint64_t size = ftell(file);
-    fseek(file, 0, SEEK_SET);
-    unsigned char* theTune = (unsigned char*) calloc(1, size);
-
+    theTune = (unsigned char*) calloc(1, size);
     size_t read = fread(theTune, 1, size, file);
-    if (size != read)
+    if (optind < argc && size != read)
     {
         fprintf(stderr, "Invalid read size\n");
         return 1;
     }
-
-    theTune = check_and_convert(theTune, size);
+    theTune = check_and_convert(theTune, read);
 
     player.Init();
     player.Open(theTune);
-
-    printf("Now Playing: %s\n", v2m_filename);
 
     if (! init_sdl()) {
         return 1;

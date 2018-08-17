@@ -17,7 +17,8 @@ sudo make install
 ## Usage
 
 ```
-./v2mplayer v2m/breeze.v2m
+./v2mplayer v2m/introtune.v2m
+zcat v2m/breeze.v2mz | ./v2mplayer
 ```
 
 --- 
