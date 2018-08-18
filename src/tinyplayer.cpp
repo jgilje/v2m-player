@@ -35,7 +35,7 @@ static void V2mPlayerUsage()
 {
     printf("Usage : v2mplayer [options] <input_file_v2m>\n\n");
     printf("options:\n");
-    printf("          -b      power size stdin buffer (int, optional, default = 24)\n");
+    printf("          -b      force power size stdin buffer (int, optional, [0..10])\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
     printf("          -h      this help\n");
 }
@@ -92,8 +92,8 @@ int main(int argc, char** argv)
 {
     V2mPlayerTitle();
     int opt;
+    int fbuf = -1;
     int fkey = 0;
-    int fbuf = 24;
     int fhelp = 0;
     while ((opt = getopt(argc, argv, ":b:kh")) != -1)
     {
@@ -125,13 +125,39 @@ int main(int argc, char** argv)
     unsigned char* theTune;
     FILE* file;
     uint64_t size;
+    size_t read = 0;
     if(optind + 1 > argc)
     {
-        if (fbuf < 20) fbuf = 20;
-        size = 1;
-        for (int i = 0; i < fbuf; i++) size *= 2;
         file = stdin;
-        printf("Now Playing: stdin(%d)\n", size);
+        if (fbuf < 0)
+        {
+            char ch;
+            int eofcnt = 0;
+            size = 1024;
+            theTune = (unsigned char*) calloc(1, size);
+            ch = getc(stdin);
+            while (ch != EOF || eofcnt < 1024)
+            {
+                if (ch != EOF) {eofcnt = 0;} else {eofcnt++;}
+                if (read == size)
+                {
+                    size += 1024;
+                    theTune = (unsigned char*)realloc(theTune, size * sizeof(unsigned char));
+                }
+                theTune[read] = ch;
+                read++;
+                ch = getc(stdin);
+            }
+            read -= eofcnt;
+        } else {
+            if (fbuf < 0 || fbuf > 10) fbuf = 4;
+            fbuf += 20;
+            size = 1 << fbuf;
+            theTune = (unsigned char*) calloc(1, size);
+            read = fread(theTune, 1, size, file);
+        }
+        printf("Now Playing: stdin(%d[%Ld])\n", read, size);
+        size = read;
     } else {
         const char *v2m_filename = argv[optind];
 
@@ -146,10 +172,10 @@ int main(int argc, char** argv)
         size = ftell(file);
         fseek(file, 0, SEEK_SET);
         printf("Now Playing: %s\n", v2m_filename);
+        theTune = (unsigned char*) calloc(1, size);
+        read = fread(theTune, 1, size, file);
     }
-    theTune = (unsigned char*) calloc(1, size);
-    size_t read = fread(theTune, 1, size, file);
-    if (optind < argc && size != read)
+    if (size != read)
     {
         fprintf(stderr, "Invalid read size\n");
         return 1;
@@ -178,5 +204,6 @@ int main(int argc, char** argv)
     SDL_PauseAudioDevice(dev, 1);
     SDL_Quit();
     player.Close();
+    free(theTune);
     return 0;
 }

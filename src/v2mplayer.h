@@ -13,7 +13,7 @@
 #define V2MPLAYER_H_
 
 #define PROJECTNAME "V2MPlayer"
-#define PROJECTVERSION "0.20180818"
+#define PROJECTVERSION "0.20180819"
 #define PROJECTURL "github.com/jgilje"
 
 

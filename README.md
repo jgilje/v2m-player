@@ -17,8 +17,9 @@ sudo make install
 ## Usage
 
 ```
-./v2mplayer v2m/introtune.v2m
-zcat v2m/breeze.v2mz | ./v2mplayer
+./v2mplayer v2m/0test.v2m
+zcat v2m/Dafunk--breeze.v2mz | ./v2mplayer
+gzip -cdf v2m/Dafunk--breeze.v2mz | ./v2mplayer
 ```
 
 --- 
