@@ -35,6 +35,7 @@ static void V2mPlayerUsage()
 {
     printf("Usage : v2mplayer [options] <input_file_v2m>\n\n");
     printf("options:\n");
+    printf("          -b      power size stdin buffer (int, optional, default = 24)\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
     printf("          -h      this help\n");
 }
@@ -92,11 +93,15 @@ int main(int argc, char** argv)
     V2mPlayerTitle();
     int opt;
     int fkey = 0;
+    int fbuf = 24;
     int fhelp = 0;
-    while ((opt = getopt(argc, argv, ":kh")) != -1)
+    while ((opt = getopt(argc, argv, ":b:kh")) != -1)
     {
         switch(opt)
         {
+            case 'b':
+                fbuf = atof(optarg);
+                break;
             case 'k':
                 fkey = 1;
                 break;
@@ -122,9 +127,11 @@ int main(int argc, char** argv)
     uint64_t size;
     if(optind + 1 > argc)
     {
-        size = 1024000;
+        if (fbuf < 20) fbuf = 20;
+        size = 1;
+        for (int i = 0; i < fbuf; i++) size *= 2;
         file = stdin;
-        printf("Now Playing: stdin\n");
+        printf("Now Playing: stdin(%d)\n", size);
     } else {
         const char *v2m_filename = argv[optind];
 
