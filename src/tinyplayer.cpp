@@ -135,6 +135,11 @@ int main(int argc, char** argv)
             int eofcnt = 0;
             size = 1024;
             theTune = (unsigned char*) calloc(1, size);
+            if (theTune == NULL)
+            {
+                fprintf(stderr, "Error memory allocator: %Ld b\n", size);
+                exit(1);
+            }
             ch = getc(stdin);
             while (ch != EOF || eofcnt < 1024)
             {
@@ -143,6 +148,11 @@ int main(int argc, char** argv)
                 {
                     size += 1024;
                     theTune = (unsigned char*)realloc(theTune, size * sizeof(unsigned char));
+                    if (theTune == NULL)
+                    {
+                        fprintf(stderr, "Error memory allocator: %Ld b\n", size);
+                        exit(1);
+                    }
                 }
                 theTune[read] = ch;
                 read++;
@@ -154,6 +164,11 @@ int main(int argc, char** argv)
             fbuf += 20;
             size = 1 << fbuf;
             theTune = (unsigned char*) calloc(1, size);
+            if (theTune == NULL)
+            {
+                fprintf(stderr, "Error memory allocator: %Ld b\n", size);
+                exit(1);
+            }
             read = fread(theTune, 1, size, file);
         }
         printf("Now Playing: stdin(%d[%Ld])\n", read, size);
@@ -173,6 +188,11 @@ int main(int argc, char** argv)
         fseek(file, 0, SEEK_SET);
         printf("Now Playing: %s\n", v2m_filename);
         theTune = (unsigned char*) calloc(1, size);
+        if (theTune == NULL)
+        {
+            fprintf(stderr, "Error memory allocator: %Ld b\n", size);
+            exit(1);
+        }
         read = fread(theTune, 1, size, file);
     }
     if (size != read)
