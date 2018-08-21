@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNDEBUG -DRONAN -Os -flto -Wall -fno-as
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 set(MAJOR_VERSION 0)
-set(DATE_VERSION 20180818)
+set(DATE_VERSION 20180821)
 set(V2M_VERSION ${MAJOR_VERSION}.${DATE_VERSION})
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR})
@@ -30,8 +30,12 @@ target_link_libraries(v2mplayer
     v2m
 )
 
+#file(GLOB V2M_EXAMPLE v2m/*.v2mz)
+set(V2M_EXAMPLE v2m/0test.v2m v2m/Dafunk--breeze.v2mz)
+
 install(TARGETS v2m DESTINATION lib)
 install(TARGETS v2mplayer DESTINATION bin)
 install(FILES man/man1/v2mplayer.1 DESTINATION share/man/man1)
 install(FILES src/libv2.h src/phonemtab.h src/sounddef.h src/synth.h src/types.h src/v2mconv.h src/v2mplayer.h DESTINATION include/v2m)
 install(FILES LICENSE README.md doc/AUTHORS doc/CHANGELOG doc/VERSION DESTINATION share/doc/v2mplayer)
+install(FILES ${V2M_EXAMPLE} DESTINATION share/doc/v2mplayer/v2m)

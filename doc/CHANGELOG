@@ -2,6 +2,14 @@
 Farbrausch V2M player
 SDL Port by github.com/jgilje
 
+0.20180821
+
+    fix error memory allocator
+
+0.20180819
+
+    realloc buffer stdin
+
 0.20180818
 
     fix stdin buffer size (arg -b)
