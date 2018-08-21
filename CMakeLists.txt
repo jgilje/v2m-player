@@ -30,7 +30,8 @@ target_link_libraries(v2mplayer
     v2m
 )
 
-file(GLOB V2M_EXAMPLE v2m/*.v2mz)
+#file(GLOB V2M_EXAMPLE v2m/*.v2mz)
+set(V2M_EXAMPLE v2m/0test.v2m v2m/Dafunk--breeze.v2mz)
 
 install(TARGETS v2m DESTINATION lib)
 install(TARGETS v2mplayer DESTINATION bin)
