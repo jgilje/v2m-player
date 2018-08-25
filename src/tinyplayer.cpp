@@ -37,6 +37,7 @@ static void V2mPlayerUsage()
     printf("options:\n");
     printf("          -b      force power size stdin buffer (int, optional, [0..10])\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
+    printf("          -o str  output v2m newest version (string, optional, default = none)\n");
     printf("          -h      this help\n");
 }
 static void sdl_callback(void *userdata, Uint8 * stream, int len) {
@@ -69,11 +70,16 @@ static bool init_sdl()
     return true;
 }
 
-static unsigned char* check_and_convert(unsigned char* tune, int length)
+static unsigned char* check_and_convert(unsigned char* tune, unsigned int* length)
 {
     sdInit();
 
-    int version = CheckV2MVersion(tune, length);
+    if (tune[2] != 0 || tune[3] != 0)
+    {
+        SDL_LogCritical(SDL_LOG_CATEGORY_INPUT, "No valid input file");
+        return NULL;
+    }
+    int version = CheckV2MVersion(tune, *length);
     if (version < 0)
     {
         SDL_LogCritical(SDL_LOG_CATEGORY_INPUT, "Failed to Check Version on input file");
@@ -82,7 +88,8 @@ static unsigned char* check_and_convert(unsigned char* tune, int length)
 
     uint8_t* converted;
     int converted_length;
-    ConvertV2M(tune, length, &converted, &converted_length);
+    ConvertV2M(tune, *length, &converted, &converted_length);
+    *length = converted_length;
     free(tune);
 
     return converted;
@@ -93,9 +100,11 @@ int main(int argc, char** argv)
     V2mPlayerTitle();
     int opt;
     int fbuf = -1;
+    int fouts = 0;
     int fkey = 0;
     int fhelp = 0;
-    while ((opt = getopt(argc, argv, ":b:kh")) != -1)
+    char *foutput;
+    while ((opt = getopt(argc, argv, ":b:ko:h")) != -1)
     {
         switch(opt)
         {
@@ -104,6 +113,10 @@ int main(int argc, char** argv)
                 break;
             case 'k':
                 fkey = 1;
+                break;
+            case 'o':
+                foutput = optarg;
+                fouts = 1;
                 break;
             case 'h':
                 fhelp = 1;
@@ -125,15 +138,15 @@ int main(int argc, char** argv)
     unsigned char* theTune;
     FILE* file;
     uint64_t size;
-    size_t read = 0;
+    unsigned int blksz = 4096, read = 0, eofcnt = 0;
+    char ch;
     if(optind + 1 > argc)
     {
         file = stdin;
         if (fbuf < 0)
         {
-            char ch;
-            int eofcnt = 0;
-            size = 1024;
+            eofcnt = 0;
+            size = blksz;
             theTune = (unsigned char*) calloc(1, size);
             if (theTune == NULL)
             {
@@ -141,12 +154,12 @@ int main(int argc, char** argv)
                 exit(1);
             }
             ch = getc(stdin);
-            while (ch != EOF || eofcnt < 1024)
+            while (ch != EOF || eofcnt < blksz)
             {
                 if (ch != EOF) {eofcnt = 0;} else {eofcnt++;}
                 if (read == size)
                 {
-                    size += 1024;
+                    size += blksz;
                     theTune = (unsigned char*)realloc(theTune, size * sizeof(unsigned char));
                     if (theTune == NULL)
                     {
@@ -200,7 +213,31 @@ int main(int argc, char** argv)
         fprintf(stderr, "Invalid read size\n");
         return 1;
     }
-    theTune = check_and_convert(theTune, read);
+    fclose(file);
+    theTune = check_and_convert(theTune, &read);
+    if (theTune == NULL)
+    {
+        fprintf(stderr, "Error convert to newest\n");
+        exit(1);
+    }
+    printf("Convert: %d b\n", read);
+    while (theTune[read--] == 0){}
+    read++;
+    read++;
+    printf("Strip: %d b\n", read);
+
+    if (fouts)
+    {
+        FILE* fout;
+        fout = fopen(foutput, "a");
+        if (fout == NULL)
+        {
+            fprintf(stderr, "Failed to open %s\n", foutput);
+            return 1;
+        }
+        fwrite(theTune, 1, read, fout);
+        fclose(fout);
+    }
 
     player.Init();
     player.Open(theTune);
