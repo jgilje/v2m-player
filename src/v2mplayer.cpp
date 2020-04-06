@@ -302,14 +302,14 @@ void V2MPlayer::Play(uint32_t a_time)
     {
         cursmpl += m_state.smpldelta;
         Tick();
-        if (m_state.state == PlayerState::PLAYING)
-        {
+        if (m_state.state == PlayerState::PLAYING) {
+            m_state.smpldelta = 0;
             UpdateSampleDelta(m_state.nexttime, m_state.time, m_state.usecs, m_base.timediv2, &m_state.smplrem, &m_state.smpldelta);
         } else
             m_state.smpldelta = -1;
     }
+
     m_state.smpldelta -= (destsmpl - cursmpl);
-    m_timeoffset = cursmpl-m_state.cursmpl;
     m_fadeval    = 1.0f;
     m_fadedelta  = 0.0f;
     m_base.valid = sTRUE;

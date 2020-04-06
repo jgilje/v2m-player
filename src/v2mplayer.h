@@ -202,7 +202,6 @@ private:
     V2MBase      m_base;
     PlayerState  m_state;
     uint32_t     m_samplerate;
-    int32_t      m_timeoffset;
     uint8_t      m_midibuf[4096];
     float        m_fadeval;
     float        m_fadedelta;

@@ -36,10 +36,12 @@ static void V2mPlayerUsage()
     printf("Usage : v2mplayer [options] <input_file_v2m>\n\n");
     printf("options:\n");
     printf("          -b      force power size stdin buffer (int, optional, [0..10])\n");
+    printf("          -s      start at position (int, optional, in ms., default = 0)\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
     printf("          -o str  output v2m newest version (string, optional, default = none)\n");
     printf("          -h      this help\n");
 }
+
 static void sdl_callback(void *userdata, Uint8 * stream, int len) {
     player.Render((float*) stream, len / 8);
 }
@@ -99,12 +101,13 @@ int main(int argc, char** argv)
 {
     V2mPlayerTitle();
     int opt;
+    int startPos = 0;
     int fbuf = -1;
     int fouts = 0;
     int fkey = 0;
     int fhelp = 0;
     char *foutput;
-    while ((opt = getopt(argc, argv, ":b:ko:h")) != -1)
+    while ((opt = getopt(argc, argv, ":b:ko:hs:")) != -1)
     {
         switch(opt)
         {
@@ -120,6 +123,9 @@ int main(int argc, char** argv)
                 break;
             case 'h':
                 fhelp = 1;
+                break;
+            case 's':
+                startPos = atoi(optarg);
                 break;
             case ':':
                 printf("option needs a value\n");
@@ -246,7 +252,7 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    player.Play();
+    player.Play(startPos);
     SDL_PauseAudioDevice(dev, 0);
 
     printf("Length: %d\n", player.Length());
