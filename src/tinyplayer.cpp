@@ -35,8 +35,8 @@ static void V2mPlayerUsage()
 {
     printf("Usage : v2mplayer [options] <input_file_v2m>\n\n");
     printf("options:\n");
-    printf("          -b      force power size stdin buffer (int, optional, [0..10])\n");
-    printf("          -s      start at position (int, optional, in ms., default = 0)\n");
+    printf("          -b N    force power size stdin buffer (int, optional, [0..10])\n");
+    printf("          -s N.N  start at position (float, optional, in s., default = 0.0)\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
     printf("          -o str  output v2m newest version (string, optional, default = none)\n");
     printf("          -h      this help\n");
@@ -112,7 +112,7 @@ int main(int argc, char** argv)
         switch(opt)
         {
             case 'b':
-                fbuf = atof(optarg);
+                fbuf = atoi(optarg);
                 break;
             case 'k':
                 fkey = 1;
@@ -125,7 +125,8 @@ int main(int argc, char** argv)
                 fhelp = 1;
                 break;
             case 's':
-                startPos = atoi(optarg);
+                startPos = (int)(atof(optarg) * 1000);
+                startPos = (startPos > 0) ? startPos : 0;
                 break;
             case ':':
                 printf("option needs a value\n");
