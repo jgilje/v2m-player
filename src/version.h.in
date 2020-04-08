@@ -1,0 +1,5 @@
+#pragma once
+
+#define V2M_VERSION "@V2M_VERSION@"
+#define V2M_URL "https://github.com/jgilje/v2m-player"
+

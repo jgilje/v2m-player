@@ -20,6 +20,8 @@
 #include "v2mconv.h"
 #include "sounddef.h"
 
+#include "version.h"
+
 static V2MPlayer player;
 static SDL_AudioDeviceID dev;
 
@@ -28,8 +30,8 @@ static void V2mPlayerTitle()
 {
     printf("Farbrausch Tiny Music Player v0.dontcare TWO\n");
     printf("Code and Synthesizer (C) 2000-2008 kb/Farbrausch\n");
-    printf("Version: %s\n", PROJECTVERSION);
-    printf("SDL Port by %s\n\n", PROJECTURL);
+    printf("Version: %s\n", V2M_VERSION);
+    printf("SDL Port by %s\n\n", V2M_URL);
 }
 static void V2mPlayerUsage()
 {

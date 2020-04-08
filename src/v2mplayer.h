@@ -9,13 +9,6 @@
 /*************************************************************************************/
 
 #pragma once
-#ifndef V2MPLAYER_H_
-#define V2MPLAYER_H_
-
-#define PROJECTNAME "V2MPlayer"
-#define PROJECTVERSION "0.20200407"
-#define PROJECTURL "github.com/jgilje"
-
 
 /*************************************************************************************/
 /**                                                                                 **/
@@ -211,5 +204,3 @@ private:
     void Reset();                      // resets player, inits synth
     void Tick();                       // one midi player tick
 };
-
-#endif
