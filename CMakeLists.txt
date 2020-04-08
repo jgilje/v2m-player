@@ -68,6 +68,6 @@ set(CPACK_COMPONENT_LIB_DESCRIPTION "library for rendering v2m audio files")
 
 set(CPACK_DEBIAN_DEVEL_FILE_NAME "DEB-DEFAULT")
 set(CPACK_DEBIAN_DEVEL_PACKAGE_NAME "libv2m-dev")
-set(CPACK_DEBIAN_LIB_PACKAGE_SECTION "libdevel")
+set(CPACK_DEBIAN_DEVEL_PACKAGE_SECTION "libdevel")
 set(CPACK_COMPONENT_DEVEL_DESCRIPTION "development headers for libv2m")
 include(CPack)
