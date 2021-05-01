@@ -83,7 +83,8 @@ static unsigned char* check_and_convert(unsigned char* tune, unsigned int* lengt
         SDL_LogCritical(SDL_LOG_CATEGORY_INPUT, "No valid input file");
         return NULL;
     }
-    int version = CheckV2MVersion(tune, *length);
+    ssbase base;
+    int version = CheckV2MVersion(tune, *length, base);
     if (version < 0)
     {
         SDL_LogCritical(SDL_LOG_CATEGORY_INPUT, "Failed to Check Version on input file");
