@@ -2,6 +2,15 @@
 Farbrausch V2M player
 SDL Port by github.com/jgilje
 
+0.20210505
+
+    removed 'force power size stdin buffer'
+    add output gain
+    reduced samplesize, helps playback on windows
+    remove register storage
+    remove asm from ronan
+    fix https://bitbucket.org/zxtune/zxtune 
+
 0.20200408
 
     debian based packaging

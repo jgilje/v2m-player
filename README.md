@@ -24,9 +24,7 @@ gzip -cdf v2m/Dafunk--breeze.v2mz | ./v2mplayer -o Dafunk--breeze.newest.v2m
 
 ## See also
 
-```
-http://ftp.modland.com/
-```
+* [FTP modland.com](http://ftp.modland.com/)
 
 --- 
 2020
