@@ -12,12 +12,12 @@ v2mplayer
 \fBv2mplayer\fP [options] <input_file_v2m | stdin>
 
 .SH OPTIONS
-.TP
-\fB-b\fP N
-force power size stdin buffer (int, optional, [0..10])
-.TP
+..TP
 \fB-s\fP N.N
 start at position (float, optional, in s., default = 0.0)
+TP
+\fB-g\fP N
+gain (float, optional, default = 1.0)
 .TP
 \fB-k\fP
 key/auto stop (bool, optional, default = false)
@@ -30,7 +30,7 @@ help
 
 .SH EXAMPLE
  \fBv2mplayer\fP v2m/0test.v2m
- zcat v2m/Dafunk--breeze.v2mz | \fBv2mplayer\fP
+ gzip -cdf v2m/Dafunk--breeze.v2mz | \fBv2mplayer\fP
 
 .SH COPYRIGHT
  Copyright 2016 Joakim L. Gilje.

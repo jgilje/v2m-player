@@ -38,7 +38,7 @@ static void V2mPlayerUsage()
     printf("Usage : v2mplayer [options] <input_file_v2m>\n\n");
     printf("options:\n");
     printf("          -s N.N  start at position (float, optional, in s., default = 0.0)\n");
-    printf("          -g N.N  gain (float, optional, default = 0.0)\n");
+    printf("          -g N.N  gain (float, optional, default = 1.0)\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
     printf("          -o str  output v2m newest version (string, optional, default = none)\n");
     printf("          -h      this help\n");
