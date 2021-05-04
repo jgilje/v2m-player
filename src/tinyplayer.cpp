@@ -60,7 +60,7 @@ static bool init_sdl()
     SDL_AudioSpec desired, actual;
     desired.channels = 2;
     desired.freq = 44100;
-    desired.samples = 4096;
+    desired.samples = 1024;
     desired.format = AUDIO_F32;
     desired.callback = sdl_callback;
 
