@@ -199,7 +199,7 @@ int main(int argc, char** argv)
     } else {
         const char *v2m_filename = argv[optind];
 
-        file = fopen(v2m_filename, "r");
+        file = fopen(v2m_filename, "rb");
         if (file == NULL)
         {
             fprintf(stderr, "Failed to open %s\n", v2m_filename);
