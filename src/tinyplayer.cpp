@@ -37,7 +37,6 @@ static void V2mPlayerUsage()
 {
     printf("Usage : v2mplayer [options] <input_file_v2m>\n\n");
     printf("options:\n");
-    printf("          -b N    force power size stdin buffer (int, optional, [0..10])\n");
     printf("          -s N.N  start at position (float, optional, in s., default = 0.0)\n");
     printf("          -g N.N  gain (float, optional, default = 0.0)\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
@@ -111,18 +110,14 @@ int main(int argc, char** argv)
     V2mPlayerTitle();
     int opt;
     int startPos = 0;
-    int fbuf = -1;
     int fouts = 0;
     int fkey = 0;
     int fhelp = 0;
     char *foutput;
-    while ((opt = getopt(argc, argv, ":b:ko:hs:g:")) != -1)
+    while ((opt = getopt(argc, argv, "ko:hs:g:")) != -1)
     {
         switch(opt)
         {
-            case 'b':
-                fbuf = atoi(optarg);
-                break;
             case 'k':
                 fkey = 1;
                 break;
@@ -162,48 +157,35 @@ int main(int argc, char** argv)
     if(optind + 1 > argc)
     {
         file = stdin;
-        if (fbuf < 0)
+        eofcnt = 0;
+        size = blksz;
+        theTune = (unsigned char*) calloc(1, size);
+        if (theTune == NULL)
         {
-            eofcnt = 0;
-            size = blksz;
-            theTune = (unsigned char*) calloc(1, size);
-            if (theTune == NULL)
-            {
-                fprintf(stderr, "Error memory allocator: %Ld b\n", size);
-                exit(1);
-            }
-            ch = getc(stdin);
-            while (ch != EOF || eofcnt < blksz)
-            {
-                if (ch != EOF) {eofcnt = 0;} else {eofcnt++;}
-                if (read == size)
-                {
-                    size += blksz;
-                    theTune = (unsigned char*)realloc(theTune, size * sizeof(unsigned char));
-                    if (theTune == NULL)
-                    {
-                        fprintf(stderr, "Error memory allocator: %Ld b\n", size);
-                        exit(1);
-                    }
-                }
-                theTune[read] = ch;
-                read++;
-                ch = getc(stdin);
-            }
-            read -= eofcnt;
-        } else {
-            if (fbuf < 0 || fbuf > 10) fbuf = 4;
-            fbuf += 20;
-            size = 1 << fbuf;
-            theTune = (unsigned char*) calloc(1, size);
-            if (theTune == NULL)
-            {
-                fprintf(stderr, "Error memory allocator: %Ld b\n", size);
-                exit(1);
-            }
-            read = fread(theTune, 1, size, file);
+            fprintf(stderr, "Error memory allocator: %Ld b\n", size);
+            exit(1);
         }
-        printf("Now Playing: stdin(%d[%Ld])\n", read, size);
+        ch = getc(stdin);
+        while (ch != EOF || eofcnt < blksz)
+        {
+            if (ch != EOF) {eofcnt = 0;} else {eofcnt++;}
+            if (read == size)
+            {
+                size += blksz;
+                theTune = (unsigned char*)realloc(theTune, size * sizeof(unsigned char));
+                if (theTune == NULL)
+                {
+                    fprintf(stderr, "Error memory allocator: %lu b\n", size);
+                    exit(1);
+                }
+            }
+            theTune[read] = ch;
+            read++;
+            ch = getc(stdin);
+        }
+        read -= eofcnt;
+
+        printf("Now Playing: stdin(%d[%lu])\n", read, size);
         size = read;
     } else {
         const char *v2m_filename = argv[optind];
