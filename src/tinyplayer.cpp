@@ -39,13 +39,19 @@ static void V2mPlayerUsage()
     printf("options:\n");
     printf("          -b N    force power size stdin buffer (int, optional, [0..10])\n");
     printf("          -s N.N  start at position (float, optional, in s., default = 0.0)\n");
+    printf("          -g N.N  gain (float, optional, default = 0.0)\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
     printf("          -o str  output v2m newest version (string, optional, default = none)\n");
     printf("          -h      this help\n");
 }
 
+static float gain = 1.0f;
 static void sdl_callback(void *userdata, Uint8 * stream, int len) {
-    player.Render((float*) stream, len / 8);
+    float* buf = (float*) stream;
+    player.Render(buf, len / 8);
+    for (int i = 0; i < (len / 4); ++i) {
+        buf[i] *= gain;
+    }
 }
 
 static bool init_sdl()
@@ -110,7 +116,7 @@ int main(int argc, char** argv)
     int fkey = 0;
     int fhelp = 0;
     char *foutput;
-    while ((opt = getopt(argc, argv, ":b:ko:hs:")) != -1)
+    while ((opt = getopt(argc, argv, ":b:ko:hs:g:")) != -1)
     {
         switch(opt)
         {
@@ -126,6 +132,9 @@ int main(int argc, char** argv)
                 break;
             case 'h':
                 fhelp = 1;
+                break;
+            case 'g':
+                gain = atof(optarg);
                 break;
             case 's':
                 startPos = (int)(atof(optarg) * 1000);
