@@ -13,11 +13,11 @@ v2mplayer
 
 .SH OPTIONS
 .TP
-\fB-b\fP N
-force power size stdin buffer (int, optional, [0..10])
-.TP
 \fB-s\fP N.N
 start at position (float, optional, in s., default = 0.0)
+.TP
+\fB-g\fP N
+gain (float, optional, default = 1.0)
 .TP
 \fB-k\fP
 key/auto stop (bool, optional, default = false)
