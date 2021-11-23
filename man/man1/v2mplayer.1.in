@@ -9,7 +9,7 @@ v2mplayer
  SDL Port by github.com/jgilje
 
 .SH SYNOPSIS
-\fBv2mplayer\fP [options] <input_file_v2m | stdin>
+\fBv2mplayer\fP [options] input_file_v2m | - (stdin)
 
 .SH OPTIONS
 .TP
@@ -30,7 +30,7 @@ help
 
 .SH EXAMPLE
  \fBv2mplayer\fP v2m/0test.v2m
- zcat v2m/Dafunk--breeze.v2mz | \fBv2mplayer\fP
+ zcat v2m/Dafunk--breeze.v2mz | \fBv2mplayer\fP -
 
 .SH COPYRIGHT
  Copyright 2016 Joakim L. Gilje.

@@ -24,7 +24,7 @@ sudo make install
 
 ```
 ./v2mplayer v2m/0test.v2m
-zcat v2m/Dafunk--breeze.v2mz | ./v2mplayer
+zcat v2m/Dafunk--breeze.v2mz | ./v2mplayer -
 gzip -cdf v2m/Dafunk--breeze.v2mz | ./v2mplayer -o Dafunk--breeze.newest.v2m
 ```
 

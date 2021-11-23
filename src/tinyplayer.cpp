@@ -35,7 +35,7 @@ static void V2mPlayerTitle()
 }
 static void V2mPlayerUsage()
 {
-    printf("Usage : v2mplayer [options] <input_file_v2m>\n\n");
+    printf("Usage : v2mplayer [options] input_file_v2m | - (stdin)\n\n");
     printf("options:\n");
     printf("          -s N.N  start at position (float, optional, in s., default = 0.0)\n");
     printf("          -g N.N  gain (float, optional, default = 1.0)\n");
@@ -144,7 +144,7 @@ int main(int argc, char** argv)
         }
     }
 
-    if(fhelp > 0)
+    if((fhelp > 0)||(optind + 1 > argc))
     {
         V2mPlayerUsage();
         return 1;
@@ -154,7 +154,8 @@ int main(int argc, char** argv)
     uint64_t size;
     unsigned int blksz = 4096, read = 0, eofcnt = 0;
     char ch;
-    if(optind + 1 > argc)
+    const char *v2m_filename = argv[optind];
+    if (strcmp(v2m_filename, "-") == 0)
     {
         file = stdin;
         eofcnt = 0;
@@ -188,8 +189,6 @@ int main(int argc, char** argv)
         printf("Now Playing: stdin(%d[%lu])\n", read, size);
         size = read;
     } else {
-        const char *v2m_filename = argv[optind];
-
         file = fopen(v2m_filename, "rb");
         if (file == NULL)
         {
