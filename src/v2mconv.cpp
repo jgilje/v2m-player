@@ -22,13 +22,19 @@ static ssbase readfile(const unsigned char *inptr, const int inlen)
     ssbase base;
     memset(&base, 0, sizeof(base));
 
+    if (inlen < 12) return base;
+
     base.timediv  = (*((uint32_t*)(d)));
     base.timediv2 = 10000*base.timediv;
     base.maxtime  = *((uint32_t*)(d + 4));
     base.gdnum    = *((uint32_t*)(d + 8));
+
     d += 12;
     base.gptr = d;
+
+    if (inlen  - 12 < 10*base.gdnum) return base;
     d += 10*base.gdnum;
+
     for (int ch = 0; ch < 16; ch++)
     {
         ssbase::_basech &c = base.chan[ch];
