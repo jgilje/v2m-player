@@ -73,14 +73,10 @@ static ssbase readfile(const unsigned char *inptr, const int inlen)
         base.spsize = *((uint32_t*)d);
         d += 4;
         base.speechdata = d;
-        if (base.spsize > inlen - (d - inptr))
-        {
-            base.spsize = inlen - (d - inptr);
-        }
         d += base.spsize;
 
         // small sanity check
-        if (base.spsize < 0 || base.spsize > 8192)
+        if (base.spsize < 0 || base.spsize > 8192 || (d - inptr) > inlen)
         {
             base.spsize = 0;
             base.speechdata = 0;
