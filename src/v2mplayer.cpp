@@ -148,6 +148,7 @@ void V2MPlayer::Reset()
     m_state.beat  = 0;
     m_state.tick  = 0;
     m_state.smplrem = 0;
+    m_state.cursmpl = 0;
 
     if (m_samplerate)
     {
@@ -309,6 +310,7 @@ void V2MPlayer::Play(uint32_t a_time)
             m_state.smpldelta = -1;
     }
 
+    m_state.cursmpl    = cursmpl;
     m_state.smpldelta -= (destsmpl - cursmpl);
     m_fadeval    = 1.0f;
     m_fadedelta  = 0.0f;

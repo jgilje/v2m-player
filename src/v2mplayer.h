@@ -76,10 +76,12 @@ public:
         reinterpret_cast<V2MPlayer*>(a_this)->Render(a_buffer, a_len);
     }
 
-  bool NoEnd();
-  uint32_t Length();
+    bool NoEnd();
 
-  // returns if song is currently playing
+    // returns song length
+    uint32_t Length();
+
+    // returns if song is currently playing
     bool IsPlaying();
 
     #ifdef V2MPLAYER_SYNC_FUNCTIONS
