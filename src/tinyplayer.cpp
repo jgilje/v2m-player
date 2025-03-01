@@ -39,12 +39,14 @@ static void V2mPlayerUsage()
     printf("options:\n");
     printf("          -s N.N  start at position (float, optional, in s., default = 0.0)\n");
     printf("          -g N.N  gain (float, optional, default = 1.0)\n");
+    printf("          -f N    frame size for SDL (int, optional, default = 1024)\n");
     printf("          -k      key/auto stop (bool, optional, default = false)\n");
     printf("          -o str  output v2m newest version (string, optional, default = none)\n");
     printf("          -h      this help\n");
 }
 
 static float gain = 1.0f;
+static int frame_size = 1024;
 static void sdl_callback(void *userdata, Uint8 * stream, int len) {
     float* buf = (float*) stream;
     player.Render(buf, len / 8);
@@ -65,7 +67,7 @@ static bool init_sdl()
     SDL_AudioSpec desired, actual;
     desired.channels = 2;
     desired.freq = 44100;
-    desired.samples = 1024;
+    desired.samples = frame_size;
     desired.format = AUDIO_F32;
     desired.callback = sdl_callback;
 
@@ -114,7 +116,7 @@ int main(int argc, char** argv)
     int fkey = 0;
     int fhelp = 0;
     char *foutput;
-    while ((opt = getopt(argc, argv, "ko:hs:g:")) != -1)
+    while ((opt = getopt(argc, argv, "ko:hs:g:f:")) != -1)
     {
         switch(opt)
         {
@@ -131,9 +133,13 @@ int main(int argc, char** argv)
             case 'g':
                 gain = atof(optarg);
                 break;
+            case 'f':
+                frame_size = atoi(optarg);
+                frame_size = (frame_size < 64) ? 64 : ((frame_size < 16384) ? frame_size : 16384);
+                break;
             case 's':
                 startPos = (int)(atof(optarg) * 1000);
-                startPos = (startPos > 0) ? startPos : 0;
+                startPos = (startPos < 0) ? 0 : startPos;
                 break;
             case ':':
                 printf("option needs a value\n");
