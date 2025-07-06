@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(MAJOR_VERSION 0)
-set(DATE_VERSION 20250301)
-set(V2M_MAN_DATE "01 Mar 2025")
-set(V2M_VERSION ${MAJOR_VERSION}.${DATE_VERSION})
+set(SO_VERSION 0)
+set(DATE_VERSION "2025.07.06")
+set(V2M_MAN_DATE "07 Jul 2025")
+set(V2M_VERSION ${SO_VERSION}.${DATE_VERSION})
 project(v2mplayer VERSION ${V2M_VERSION})
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
@@ -26,7 +26,7 @@ add_library(v2m
     SHARED
     $<TARGET_OBJECTS:v2m_obj>
 )
-set_target_properties(v2m PROPERTIES VERSION ${V2M_VERSION} SOVERSION ${MAJOR_VERSION})
+set_target_properties(v2m PROPERTIES VERSION ${DATE_VERSION} SOVERSION ${SO_VERSION})
 
 add_library(v2m_static
     STATIC
