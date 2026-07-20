@@ -7,6 +7,9 @@
 # v2m-player
 Farbrausch V2M player
 
+## Recent developments
+I recommend anyone looking for a V2M library to head over to https://github.com/spheenik/v2redux. V2Redux is superior at handling old versions of the V2M format, compared to what is in this repository.
+
 ![TinyPlayer](./doc/V2M-TinyPlayer.jpg)
 
 This is a quick port of the tinyplayer at https://github.com/farbrausch/fr_public/tree/master/v2 to SDL.
