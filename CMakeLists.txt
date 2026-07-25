@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 
 set(SO_VERSION 0)
-set(DATE_VERSION "2025.08.11")
-set(V2M_MAN_DATE "11 Aug 2025")
+set(DATE_VERSION "2026.07.25")
+set(V2M_MAN_DATE "25 Jul 2026")
 set(V2M_VERSION ${SO_VERSION}.${DATE_VERSION})
 project(v2mplayer VERSION ${V2M_VERSION})
 
