@@ -850,7 +850,7 @@ private:
             output(dest + i, gain * x);
         }
 
-        flt = nf;
+        nf = flt;
         nseed = seed;
     }
 
