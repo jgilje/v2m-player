@@ -230,8 +230,8 @@ void V2MPlayer::Tick()
         if (sc.pbnr < bc.pbnum && m_state.time == sc.pbnt)
         {
             PUTSTAT(0xe0|ch)
-            *mptr ++= (sc.lastpb0 += sc.pbptr[3*bc.pcnum]);
-            *mptr ++= (sc.lastpb1 += sc.pbptr[4*bc.pcnum]);
+            *mptr ++= (sc.lastpb0 += sc.pbptr[3*bc.pbnum]);
+            *mptr ++= (sc.lastpb1 += sc.pbptr[4*bc.pbnum]);
             sc.pbnr++;
             sc.pbptr++;
             UPDATENT2(sc.pbnr,sc.pbnt,sc.pbptr,bc.pbnum);
